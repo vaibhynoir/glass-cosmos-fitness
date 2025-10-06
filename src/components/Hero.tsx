@@ -107,7 +107,7 @@ export const Hero = () => {
             >
               <Button
                 onClick={() => scrollToSection("recipes")}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-7 rounded-full text-lg glow-gold transition-all duration-300 hover:scale-105 group"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-7 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105 group"
               >
                 Get Free Recipe Book
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />

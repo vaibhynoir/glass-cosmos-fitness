@@ -70,7 +70,7 @@ export const Navigation = () => {
             >
               <Button
                 onClick={() => scrollToSection("recipes")}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-6 rounded-full glow-gold transition-all duration-300 hover:scale-105"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-6 rounded-full glow-coral transition-all duration-300 hover:scale-105"
               >
                 Start Your Journey
               </Button>
@@ -105,7 +105,7 @@ export const Navigation = () => {
             ))}
             <Button
               onClick={() => scrollToSection("recipes")}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full glow-gold"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full glow-coral"
             >
               Start Your Journey
             </Button>
