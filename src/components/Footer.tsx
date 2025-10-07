@@ -35,7 +35,7 @@ export const Footer = () => {
             <h4 className="text-lg font-bold">Get In Touch</h4>
             <div className="space-y-3">
               <a
-                href="mailto:coach@amitgarg.com"
+                href="sculptbyag@gmail.com"
                 className="flex items-center gap-3 text-foreground/70 hover:text-primary transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
