@@ -23,6 +23,13 @@ export const Navigation = () => {
     }
   };
 
+  const handleJourneyClick = () => {
+    window.open(
+      "https://docs.google.com/forms/d/1gEswqUTqwT4Z7v0h486jT7gNwNu1GTIp_6i6bB48jjw/viewform?edit_requested=true",
+      "_blank"
+    );
+  };
+
   const navLinks = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
@@ -40,6 +47,7 @@ export const Navigation = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -69,7 +77,7 @@ export const Navigation = () => {
               transition={{ delay: 0.4 }}
             >
               <Button
-                onClick={() => scrollToSection("recipes")}
+                onClick={handleJourneyClick}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-6 rounded-full glow-coral transition-all duration-300 hover:scale-105"
               >
                 Start Your Journey
@@ -77,7 +85,7 @@ export const Navigation = () => {
             </motion.div>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
             className="md:hidden text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -104,7 +112,7 @@ export const Navigation = () => {
               </button>
             ))}
             <Button
-              onClick={() => scrollToSection("recipes")}
+              onClick={handleJourneyClick}
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full glow-coral"
             >
               Start Your Journey
