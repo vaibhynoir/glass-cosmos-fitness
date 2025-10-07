@@ -49,7 +49,7 @@ export const Testimonials = () => {
     "https://www.instagram.com/p/C19ylpbS4Wn/",
     "https://www.instagram.com/reel/DPd5SYfk0fc/",
     "https://www.instagram.com/reel/DOOZXRdk-2j/",
-    "https://www.instagram.com/p/C19ylpbS4Wn/",
+    "https://www.instagram.com/reel/DOGUSU1k_7d/",
     "https://www.instagram.com/reel/DPd5SYfk0fc/",
     "https://www.instagram.com/reel/DOOZXRdk-2j/",
   ];
