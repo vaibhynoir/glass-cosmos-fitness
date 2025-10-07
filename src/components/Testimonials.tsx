@@ -14,36 +14,35 @@ declare global {
 
 const InstagramEmbed = ({ url }: { url: string }) => {
   useEffect(() => {
-    if (window.instgrm) {
+    if (window.instgrm?.Embeds) {
       window.instgrm.Embeds.process();
     }
-  }, []);
+  }, [url]);
 
   return (
     <blockquote
       className="instagram-media"
-      data-instgrm-captioned
       data-instgrm-permalink={url}
       data-instgrm-version="14"
       style={{
-        background: '#FFF',
+        background: "#FFF",
         border: 0,
-        borderRadius: '3px',
-        boxShadow: '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)',
-        margin: '1px',
-        maxWidth: '540px',
-        minWidth: '326px',
+        borderRadius: "3px",
+        boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
+        margin: "1px",
+        maxWidth: "540px",
+        minWidth: "326px",
         padding: 0,
-        width: '99.375%'
+        width: "100%",
       }}
     />
   );
 };
 
 export const Testimonials = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [columns, setColumns] = useState(4);
+  const [columns, setColumns] = useState(3);
 
   const instagramPosts = [
     "https://www.instagram.com/p/C19ylpbS4Wn/",
@@ -62,23 +61,16 @@ export const Testimonials = () => {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      setColumns(getColumns(window.innerWidth));
-    };
-
+    const handleResize = () => setColumns(getColumns(window.innerWidth));
     handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (window.instgrm) {
-        window.instgrm.Embeds.process();
-      }
+      window.instgrm?.Embeds?.process();
     }, 100);
-
     return () => clearTimeout(timer);
   }, []);
 
