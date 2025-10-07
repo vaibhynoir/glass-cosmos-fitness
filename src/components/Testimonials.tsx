@@ -1,14 +1,62 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { MasonryGrid } from "@/components/ui/image-testimonial-grid";
+
+interface Testimonial {
+  name: string;
+  role: string;
+  company: string;
+  image: string;
+  before: string;
+  after: string;
+  duration: string;
+  quote: string;
+  rating: number;
+  mainImage: string;
+}
+
+const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
+  <div className="relative rounded-2xl overflow-hidden group transition-transform duration-300 ease-in-out hover:scale-105">
+    <img
+      src={testimonial.mainImage}
+      alt={testimonial.quote}
+      className="w-full h-auto object-cover"
+      onError={(e) => {
+        e.currentTarget.src =
+          "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&h=1200&q=80";
+      }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+    <div className="absolute top-0 left-0 p-4 text-white">
+      <div className="flex items-center gap-3 mb-2">
+        <img
+          src={testimonial.image}
+          className="w-8 h-8 rounded-full border-2 border-white/80"
+          alt={testimonial.name}
+          onError={(e) => {
+            e.currentTarget.src =
+              "https://api.dicebear.com/7.x/avataaars/svg?seed=" +
+              testimonial.name;
+          }}
+        />
+        <span className="font-semibold text-sm drop-shadow-md">
+          {testimonial.name}
+        </span>
+      </div>
+      <p className="text-sm font-medium leading-tight drop-shadow-md">
+        {testimonial.quote.substring(0, 80)}...
+      </p>
+    </div>
+  </div>
+);
 
 export const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [columns, setColumns] = useState(4);
 
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       name: "Rajesh Kumar",
       role: "Senior Software Engineer",
@@ -20,6 +68,8 @@ export const Testimonials = () => {
       quote:
         "Amit's program fit perfectly into my demanding IT schedule. Lost 24kg without giving up my favorite foods or spending hours in the gym. Life-changing!",
       rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&h=1200&q=80",
     },
     {
       name: "Priya Sharma",
@@ -32,6 +82,8 @@ export const Testimonials = () => {
       quote:
         "As someone who works 12-hour days, I thought fitness was impossible. Amit proved me wrong with a sustainable, science-based approach that actually works.",
       rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&h=1000&q=80",
     },
     {
       name: "Arjun Mehta",
@@ -44,6 +96,8 @@ export const Testimonials = () => {
       quote:
         "23kg down and feeling stronger than ever. Amit's personalized nutrition and training plans are worth every penny. Best investment I've made in myself.",
       rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&h=1200&q=80",
     },
     {
       name: "Sneha Patel",
@@ -56,20 +110,87 @@ export const Testimonials = () => {
       quote:
         "Finally found a coach who understands the IT lifestyle. No generic advice—everything was tailored to my schedule, stress levels, and goals.",
       rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&h=1000&q=80",
+    },
+    {
+      name: "Vikram Singh",
+      role: "DevOps Engineer",
+      company: "CloudTech",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vikram",
+      before: "98kg",
+      after: "75kg",
+      duration: "7 months",
+      quote:
+        "The transformation is real! Amit's approach to fitness made me feel energized and confident again.",
+      rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&h=1200&q=80",
+    },
+    {
+      name: "Ananya Reddy",
+      role: "UX Designer",
+      company: "DesignHub",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ananya",
+      before: "72kg",
+      after: "58kg",
+      duration: "5 months",
+      quote:
+        "Lost weight while enjoying the journey. Amit made fitness feel achievable and sustainable.",
+      rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&h=1000&q=80",
+    },
+    {
+      name: "Karthik Iyer",
+      role: "Full Stack Developer",
+      company: "WebSolutions",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Karthik",
+      before: "88kg",
+      after: "70kg",
+      duration: "6 months",
+      quote:
+        "From desk-bound to fit and active. This program changed my entire perspective on health.",
+      rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&h=1200&q=80",
+    },
+    {
+      name: "Meera Nair",
+      role: "Business Analyst",
+      company: "FinTech Pro",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera",
+      before: "80kg",
+      after: "62kg",
+      duration: "6 months",
+      quote:
+        "The best decision I made this year. Feeling healthier and happier than ever!",
+      rating: 5,
+      mainImage:
+        "https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=800&h=1000&q=80",
     },
   ];
 
-  const nextTestimonial = () => {
-    setActiveIndex((prev) => (prev + 1) % testimonials.length);
+  const getColumns = (width: number) => {
+    if (width < 640) return 1;
+    if (width < 1024) return 2;
+    if (width < 1280) return 3;
+    return 4;
   };
 
-  const prevTestimonial = () => {
-    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setColumns(getColumns(window.innerWidth));
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section id="testimonials" className="py-32 relative overflow-hidden">
-      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/10 rounded-full blur-[150px]" />
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
@@ -77,7 +198,7 @@ export const Testimonials = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <div className="inline-block glass px-6 py-3 rounded-full mb-6">
             <p className="text-primary font-semibold text-sm tracking-wider">
@@ -92,128 +213,12 @@ export const Testimonials = () => {
           </p>
         </motion.div>
 
-        <div className="max-w-5xl mx-auto">
-          {/* Main Testimonial Card */}
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="glass-intense rounded-3xl p-8 md:p-12 relative"
-          >
-            {/* Quote Icon */}
-            <div className="absolute top-8 right-8 opacity-20">
-              <Quote className="w-24 h-24 text-primary" />
-            </div>
+        <MasonryGrid columns={columns} gap={4}>
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard key={index} testimonial={testimonial} />
+          ))}
+        </MasonryGrid>
 
-            <div className="grid md:grid-cols-3 gap-8 items-center relative z-10">
-              {/* Avatar & Info */}
-              <div className="text-center md:text-left space-y-4">
-                <div className="relative inline-block">
-                  <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/30 mx-auto md:mx-0">
-                    <img
-                      src={testimonials[activeIndex].image}
-                      alt={testimonials[activeIndex].name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 glass-intense px-3 py-1 rounded-full">
-                    <div className="flex items-center gap-1">
-                      {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-primary text-primary" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-xl font-bold">{testimonials[activeIndex].name}</h4>
-                  <p className="text-foreground/70 text-sm">{testimonials[activeIndex].role}</p>
-                  <p className="text-foreground/50 text-xs">{testimonials[activeIndex].company}</p>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-2 pt-4">
-                  <div className="glass p-3 rounded-xl text-center">
-                    <div className="text-lg font-bold text-secondary">
-                      {testimonials[activeIndex].before}
-                    </div>
-                    <div className="text-xs text-foreground/60">Before</div>
-                  </div>
-                  <div className="glass p-3 rounded-xl text-center">
-                    <div className="text-lg font-bold text-primary">
-                      {testimonials[activeIndex].after}
-                    </div>
-                    <div className="text-xs text-foreground/60">After</div>
-                  </div>
-                  <div className="glass p-3 rounded-xl text-center">
-                    <div className="text-lg font-bold text-accent">
-                      {testimonials[activeIndex].duration.split(" ")[0]}
-                    </div>
-                    <div className="text-xs text-foreground/60">Months</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quote */}
-              <div className="md:col-span-2 space-y-6">
-                <p className="text-xl md:text-2xl leading-relaxed text-foreground/90 italic">
-                  "{testimonials[activeIndex].quote}"
-                </p>
-
-                {/* Weight Loss Achievement */}
-                <div className="glass p-4 rounded-2xl inline-block">
-                  <div className="flex items-center gap-3">
-                    <div className="text-3xl font-bold gradient-text">
-                      -{parseInt(testimonials[activeIndex].before) - parseInt(testimonials[activeIndex].after)}kg
-                    </div>
-                    <div className="text-sm text-foreground/70">
-                      in {testimonials[activeIndex].duration}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              onClick={prevTestimonial}
-              variant="outline"
-              size="icon"
-              className="glass hover:glass-intense border-primary/30 rounded-full w-12 h-12"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
-
-            {/* Dots */}
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === activeIndex
-                      ? "bg-primary w-8"
-                      : "bg-foreground/20 hover:bg-foreground/40"
-                  }`}
-                />
-              ))}
-            </div>
-
-            <Button
-              onClick={nextTestimonial}
-              variant="outline"
-              size="icon"
-              className="glass hover:glass-intense border-primary/30 rounded-full w-12 h-12"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Stats Bar */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
