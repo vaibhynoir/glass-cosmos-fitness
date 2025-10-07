@@ -50,7 +50,7 @@ export const Testimonials = () => {
     "https://www.instagram.com/reel/DOOZXRdk-2j/",
     "https://www.instagram.com/reel/DOGUSU1k_7d/",
     "https://www.instagram.com/p/DN25Gt75nqn/",
-    "https://www.instagram.com/reel/DOOZXRdk-2j/",
+    "https://www.instagram.com/p/DNLHhghyaiF/",
   ];
 
   const getColumns = (width: number) => {
