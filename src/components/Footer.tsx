@@ -39,7 +39,7 @@ export const Footer = () => {
                 className="flex items-center gap-3 text-foreground/70 hover:text-primary transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
-                coach@amitgarg.com
+                sculptbyag@gmail.com
               </a>
               <div className="flex gap-4 pt-2">
                 {[
