@@ -11,122 +11,83 @@ interface Testimonial {
 
 const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
   const embedRef = useRef<HTMLDivElement>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // Load Instagram embed script once globally
-    if (!document.querySelector('script[src="//www.instagram.com/embed.js"]')) {
-      const script = document.createElement("script");
-      script.src = "//www.instagram.com/embed.js";
+    // Ensure the Instagram embed script exists
+    const scriptUrl = "https://www.instagram.com/embed.js";
+    let script = document.querySelector(`script[src="${scriptUrl}"]`);
+
+    if (!script) {
+      script = document.createElement("script");
+      script.src = scriptUrl;
       script.async = true;
       document.body.appendChild(script);
     }
 
-    // Process embeds after render
+    // Wait for script to load before processing embeds
     const processEmbeds = () => {
-      if ((window as any).instgrm && (window as any).instgrm.Embeds) {
+      if ((window as any).instgrm?.Embeds) {
         (window as any).instgrm.Embeds.process();
+        setLoaded(true);
+      } else {
+        setTimeout(processEmbeds, 500);
       }
     };
 
     processEmbeds();
-    const timer = setTimeout(processEmbeds, 2000);
-    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div
-      ref={embedRef}
-      className="relative rounded-2xl overflow-hidden group transition-transform duration-300 ease-in-out hover:scale-105 bg-white"
-      dangerouslySetInnerHTML={{ __html: testimonial.mainImage }}
-    />
+    <div className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:scale-[1.02] transition-transform duration-300">
+      {!loaded && (
+        <div className="flex items-center justify-center h-[400px] text-gray-500 text-sm">
+          Loading Instagram post...
+        </div>
+      )}
+      <div
+        ref={embedRef}
+        className={`${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-700`}
+        dangerouslySetInnerHTML={{ __html: testimonial.mainImage }}
+      />
+    </div>
   );
 };
 
 export const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [columns, setColumns] = useState(4);
 
   const testimonials: Testimonial[] = [
     {
       name: "Rajesh Kumar",
       role: "Senior Software Engineer",
       company: "Tech Corp",
-      quote:
-        "Amit's program fit perfectly into my demanding IT schedule. Life-changing results!",
+      quote: "Life-changing results even with a busy schedule!",
       mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8j3VbTN23o/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
     },
     {
       name: "Priya Sharma",
       role: "Product Manager",
       company: "StartupXYZ",
-      quote:
-        "A sustainable, science-based approach that actually works for busy professionals.",
+      quote: "Science-based and easy to follow!",
       mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jjdQuRYlg/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
     },
     {
       name: "Arjun Mehta",
       role: "Tech Lead",
       company: "MegaCorp",
-      quote:
-        "23kg down and feeling stronger than ever. Personalized nutrition + training = success.",
+      quote: "23kg down and stronger than ever.",
       mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jm9lsPGEX/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
     },
     {
       name: "Sneha Patel",
       role: "Data Scientist",
       company: "AI Solutions",
-      quote:
-        "Finally found a coach who understands the IT lifestyle — everything tailored to me!",
+      quote: "Tailored perfectly for my lifestyle!",
       mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jjMULu3kA/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
-    },
-    {
-      name: "Vikram Singh",
-      role: "DevOps Engineer",
-      company: "CloudTech",
-      quote:
-        "The transformation is real! Energized and confident again — best investment ever.",
-      mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jlUEpRKwh/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
-    },
-    {
-      name: "Ananya Reddy",
-      role: "UX Designer",
-      company: "DesignHub",
-      quote:
-        "Lost weight while enjoying the journey — fitness finally feels sustainable.",
-      mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jjMULu3kA/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
-    },
-    {
-      name: "Karthik Iyer",
-      role: "Full Stack Developer",
-      company: "WebSolutions",
-      quote:
-        "From desk-bound to fit and active — this program changed my entire perspective.",
-      mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jlUEpRKwh/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
-    },
-    {
-      name: "Meera Nair",
-      role: "Business Analyst",
-      company: "FinTech Pro",
-      quote:
-        "The best decision I made this year — feeling healthier and happier than ever!",
-      mainImage: `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C8jm9lsPGEX/?utm_source=ig_embed" data-instgrm-version="14" style="background:#FFF;border:0; margin:0 auto; max-width:540px; width:100%;"></blockquote>`,
     },
   ];
-
-  const getColumns = (width: number) => {
-    if (width < 640) return 1;
-    if (width < 1024) return 2;
-    if (width < 1280) return 3;
-    return 4;
-  };
-
-  useEffect(() => {
-    const handleResize = () => setColumns(getColumns(window.innerWidth));
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <section id="testimonials" className="py-32 relative overflow-hidden">
@@ -148,15 +109,13 @@ export const Testimonials = () => {
             Real People, <span className="gradient-text">Real Results</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            Join hundreds of IT professionals who have transformed their lives
+            Join hundreds of professionals who have transformed their lives.
           </p>
         </motion.div>
 
-        <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${columns} gap-6`}
-        >
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} testimonial={testimonial} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, i) => (
+            <TestimonialCard key={i} testimonial={testimonial} />
           ))}
         </div>
 
