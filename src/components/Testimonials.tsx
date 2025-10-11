@@ -111,7 +111,7 @@ export const Testimonials = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-5xl mx-auto"
         >
           {[
-            { value: "500+", label: "Lives Changed" },
+            { value: "400+", label: "Lives Changed" },
             { value: "92%", label: "Success Rate" },
             { value: "15-25kg", label: "Avg. Fat Loss" },
             { value: "4.9★", label: "Client Rating" },
