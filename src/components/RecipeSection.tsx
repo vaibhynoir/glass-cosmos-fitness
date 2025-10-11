@@ -77,28 +77,6 @@ export const RecipeSection = () => {
                 />
               </div>
 
-              {/* Floating Stats */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="absolute top-10 -left-4 glass-intense p-4 rounded-2xl glow-gold"
-              >
-                <BookOpen className="w-8 h-8 text-primary mb-2" />
-                <div className="text-sm font-semibold">Healthy Lifestyle Guide</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="absolute bottom-10 -right-4 glass-intense p-4 rounded-2xl glow-burgundy"
-              >
-                <div className="text-2xl font-bold gradient-text">FREE</div>
-                <div className="text-sm">Limited Time</div>
-              </motion.div>
-            </motion.div>
-
             {/* Form Section */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
