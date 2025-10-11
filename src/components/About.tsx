@@ -1,46 +1,71 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Award, Target, Users, TrendingUp } from "lucide-react";
-import amitImage from "@/assets/amit-garg.png";
+import { Sparkles, Flame, Target, Heart, ArrowUp, Zap, Clock } from "lucide-react";
 
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const milestones = [
+  const story = [
     {
-      year: "2010",
-      title: "Journey Begins",
-      description: "Started personal fitness transformation journey",
+      year: "2019",
+      title: "Back in 2019, I Shed Almost 25 Kilograms",
+      description:
+        "Here’s my journey and the wisdom it imparted. This isn’t about achievements — it’s about perseverance and rediscovering self-belief.",
+      icon: Sparkles,
+    },
+    {
+      year: "Before",
+      title: "Tried Changing Myself, But Never Really Tried Tried!",
+      description:
+        "I avoided mirrors, wore loose t-shirts, and convinced myself I was fine. But deep down, I knew I was evading my true self.",
       icon: Target,
     },
     {
-      year: "2015",
-      title: "Certified Coach",
-      description: "Became certified fitness and nutrition coach",
-      icon: Award,
+      year: "2017",
+      title: "The Wake-Up Call",
+      description:
+        "After seeing a photo at a friend’s wedding, I realized it was time to change. I joined a gym between office hours and refused to make excuses.",
+      icon: Flame,
     },
     {
-      year: "2018",
-      title: "IT Specialist",
-      description: "Focused on helping IT professionals achieve their goals",
-      icon: Users,
+      year: "Week 4",
+      title: "No Progress — Yet No Giving Up",
+      description:
+        "Four weeks in, I saw zero results. But I persisted. By week five, I lost 1.5 kilograms — proof that consistency beats motivation.",
+      icon: Zap,
     },
     {
-      year: "2025",
-      title: "500+ Transformations",
-      description: "Helped hundreds transform their lives",
-      icon: TrendingUp,
+      year: "Turning Point",
+      title: "Results, Confidence & No Turning Back",
+      description:
+        "The mirror stopped being my enemy. From 95kg to 70kg — not just a body transformation, but a mindset revolution.",
+      icon: ArrowUp,
+    },
+    {
+      year: "Lesson",
+      title: "Good Health Is Essential",
+      description:
+        "It’s not just about looking fit — it’s about discipline, self-respect, and caring for your loved ones. True transformation starts within.",
+      icon: Heart,
+    },
+    {
+      year: "Regret",
+      title: "My Only Regret?",
+      description:
+        "That I didn’t start sooner. But there’s no deadline. It’s never too late. Don’t wait for the ‘perfect time’ — start now.",
+      icon: Clock,
     },
   ];
 
   return (
-    <section id="about" className="py-32 relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
+    <section id="about" className="py-32 relative overflow-hidden bg-background">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/3 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -48,130 +73,72 @@ export const About = () => {
           className="text-center mb-20"
         >
           <div className="inline-block glass px-6 py-3 rounded-full mb-6">
-            <p className="text-primary font-semibold text-sm tracking-wider">
-              MY STORY
-            </p>
+            <p className="text-primary font-semibold text-sm tracking-wider">MY STORY</p>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            About <span className="gradient-text">Amit Garg</span>
+            The <span className="gradient-text">Transformation Journey</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            Transforming IT professionals through science-based fitness and sustainable nutrition
+            A story of resilience, growth, and rediscovering self-confidence.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="glass-intense rounded-3xl p-8 animate-float">
-              <img
-                src={amitImage}
-                alt="Amit Garg - Elite Fitness Coach"
-                className="rounded-2xl w-full object-cover"
-              />
-              <div className="absolute -bottom-6 -right-6 glass-intense p-6 rounded-2xl glow-gold">
-                <div className="text-3xl font-bold gradient-text">15+</div>
-                <div className="text-sm text-foreground/70">Years Experience</div>
-              </div>
-            </div>
-          </motion.div>
+        {/* Vertical Timeline */}
+        <div className="relative max-w-5xl mx-auto">
+          {/* Center Line */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary via-secondary to-accent hidden md:block" />
 
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
-          >
-            <h3 className="text-3xl font-bold">
-              Your Partner in <span className="gradient-text">Transformation</span>
-            </h3>
-            <div className="space-y-4 text-foreground/80 text-lg leading-relaxed">
-              <p>
-                As someone who understands the unique challenges of the IT industry—long hours,
-                desk-bound work, and high stress—I've dedicated my career to helping professionals
-                like you reclaim their health and vitality.
-              </p>
-              <p>
-                My approach combines evidence-based training protocols, personalized nutrition
-                strategies, and sustainable lifestyle modifications that fit seamlessly into your
-                demanding schedule.
-              </p>
-              <p>
-                With over 500 successful transformations and a 98% client success rate, I've proven
-                that sustainable fat loss and optimal health are achievable—even with the busiest
-                lifestyle.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-6">
-              {[
-                { label: "Clients Coached", value: "500+" },
-                { label: "Success Rate", value: "98%" },
-                { label: "Avg. Fat Loss", value: "15-25kg" },
-                { label: "Satisfaction", value: "5★" },
-              ].map((stat, index) => (
-                <div key={index} className="glass p-4 rounded-xl">
-                  <div className="text-2xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-sm text-foreground/60">{stat.label}</div>
+          <div className="space-y-16 md:space-y-24">
+            {story.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className={`relative flex flex-col md:flex-row items-center ${
+                  index % 2 === 0 ? "md:flex-row-reverse" : ""
+                }`}
+              >
+                {/* Content Card */}
+                <div
+                  className={`glass-intense p-8 md:w-[45%] rounded-2xl shadow-lg ${
+                    index % 2 === 0 ? "md:text-left" : "md:text-right"
+                  }`}
+                >
+                  <div className="text-primary font-semibold mb-2">{item.year}</div>
+                  <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                  <p className="text-foreground/80 leading-relaxed text-lg">
+                    {item.description}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </motion.div>
+
+                {/* Icon in the center */}
+                <div className="absolute md:relative left-1/2 -translate-x-1/2 md:translate-x-0 flex justify-center items-center z-10 my-8 md:my-0">
+                  <div className="glass-intense p-4 rounded-full glow-gold">
+                    <item.icon className="w-7 h-7 text-primary" />
+                  </div>
+                </div>
+
+                {/* Spacer for alignment */}
+                <div className="hidden md:block md:w-[45%]" />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
-        {/* Timeline */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="text-center mt-24"
         >
-          <h3 className="text-3xl md:text-4xl font-bold text-center mb-16">
-            The <span className="gradient-text">Journey</span>
-          </h3>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent hidden md:block" />
-
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
-                  className={`flex items-center gap-8 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  } flex-col md:flex-row`}
-                >
-                  {/* Content */}
-                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"} text-center md:text-inherit`}>
-                    <div className="glass-intense p-6 rounded-2xl inline-block">
-                      <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
-                      <h4 className="text-2xl font-bold mb-2">{milestone.title}</h4>
-                      <p className="text-foreground/70">{milestone.description}</p>
-                    </div> 
-                  </div>
-
-                  {/* Icon */}
-                  <div className="relative z-10">
-                    <div className="glass-intense p-4 rounded-full glow-gold">
-                      <milestone.icon className="w-8 h-8 text-primary" />
-                    </div>
-                  </div>
-
-                  {/* Spacer */}
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <p className="text-xl text-foreground/70 mb-4">
+            Every transformation starts with one step.
+          </p>
+          <button className="px-8 py-4 rounded-xl glass-intense text-lg font-semibold gradient-text hover:scale-105 transition-transform">
+            Begin Your Journey
+          </button>
         </motion.div>
       </div>
     </section>
