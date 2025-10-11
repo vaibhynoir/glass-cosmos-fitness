@@ -86,7 +86,7 @@ export const RecipeSection = () => {
                 className="absolute top-10 -left-4 glass-intense p-4 rounded-2xl glow-gold"
               >
                 <BookOpen className="w-8 h-8 text-primary mb-2" />
-                <div className="text-sm font-semibold">50+ Recipes</div>
+                <div className="text-sm font-semibold">Healthy Lifestyle Guide</div>
               </motion.div>
 
               <motion.div
