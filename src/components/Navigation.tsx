@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MacroCalculator } from "@/components/MacroCalculator";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -58,7 +59,7 @@ export const Navigation = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link, index) => (
               <motion.button
                 key={link.id}
@@ -71,6 +72,13 @@ export const Navigation = () => {
                 {link.label}
               </motion.button>
             ))}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.35 }}
+            >
+              <MacroCalculator />
+            </motion.div>
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -111,6 +119,9 @@ export const Navigation = () => {
                 {link.label}
               </button>
             ))}
+            <div className="w-full">
+              <MacroCalculator />
+            </div>
             <Button
               onClick={handleJourneyClick}
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full glow-coral"
