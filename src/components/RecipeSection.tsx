@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { BookOpen, Mail, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import recipeEbook from "@/assets/recipe-ebook.png";
 
 export const RecipeSection = () => {
   const ref = useRef(null);
@@ -16,7 +14,6 @@ export const RecipeSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      // Simulate email submission
       setIsSubmitted(true);
       toast.success("Success! Check your inbox for the recipe ebook.", {
         duration: 5000,
@@ -41,6 +38,7 @@ export const RecipeSection = () => {
       <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -60,6 +58,7 @@ export const RecipeSection = () => {
           </p>
         </motion.div>
 
+        {/* Content */}
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* Ebook Image */}
@@ -72,7 +71,7 @@ export const RecipeSection = () => {
               <div className="relative animate-float">
                 <div className="absolute inset-0 bg-primary/20 rounded-3xl blur-3xl" />
                 <img
-                  src={recipeEbook}
+                  src="https://ik.imagekit.io/h7eyqsxl7/Screenshot%202025-10-11%20104919.png?updatedAt=1760160034268"
                   alt="Free Recipe Ebook"
                   className="relative z-10 w-full max-w-md mx-auto drop-shadow-2xl"
                 />
