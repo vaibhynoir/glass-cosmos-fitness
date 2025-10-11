@@ -130,7 +130,7 @@ export const About = () => {
                 demanding schedule.
               </p>
               <p>
-                With over 500 successful transformations and a 92% client success rate, I've proven
+                With over 400 successful transformations and a 92% client success rate, I've proven
                 that sustainable fat loss and optimal health are achievable—even with the busiest
                 lifestyle.
               </p>
