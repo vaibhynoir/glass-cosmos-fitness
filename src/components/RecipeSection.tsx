@@ -167,7 +167,7 @@ export const RecipeSection = () => {
                   </div>
                   <h4 className="text-2xl font-bold">Check Your Email!</h4>
                   <p className="text-foreground/70">
-                    Your free recipe ebook is on its way. Check your inbox (and spam folder) for
+                    Your free ebook is on its way. Check your inbox (and spam folder) for
                     the download link.
                   </p>
                 </motion.div>
