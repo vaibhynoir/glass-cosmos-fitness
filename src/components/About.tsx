@@ -137,7 +137,7 @@ export const About = () => {
             </div>
             <div className="grid grid-cols-2 gap-4 pt-6">
               {[
-                { label: "Clients Coached", value: "500+" },
+                { label: "Clients Coached", value: "400+" },
                 { label: "Success Rate", value: "92%" },
                 { label: "Avg. Fat Loss", value: "15-25kg" },
                 { label: "Satisfaction", value: "5★" },
