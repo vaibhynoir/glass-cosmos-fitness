@@ -1,46 +1,37 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Award, Target, Users, TrendingUp } from "lucide-react";
+import amitImage from "@/assets/amit-garg.png";
 
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const story = [
+  const milestones = [
     {
-      title: "Back in 2019, I Shed Almost 25 Kilograms.",
-      content:
-        "Here’s my journey and the wisdom it imparted. This isn’t about achievements — it’s about perseverance and rediscovering self-belief.",
+      year: "2010",
+      title: "Journey Begins",
+      description: "Started personal fitness transformation journey",
+      icon: Target,
     },
     {
-      title: "Tried Changing Myself, But Never Really Tried Tried!",
-      content:
-        "I used to avoid mirrors, oversized shirts became my armor, and I convinced myself I was fine. Deep down, I wasn’t. I was evading myself.",
+      year: "2015",
+      title: "Certified Coach",
+      description: "Became certified fitness and nutrition coach",
+      icon: Award,
     },
     {
-      title: "The Wake-Up Call",
-      content:
-        "In 2017, after seeing a photo from a friend’s wedding, I knew something had to change. I joined a gym between office and home — it wasn’t easy, but it was necessary.",
+      year: "2018",
+      title: "IT Specialist",
+      description: "Focused on helping IT professionals achieve their goals",
+      icon: Users,
     },
     {
-      title: "For the Initial 4 Weeks, I Didn’t Make Any Progress.",
-      content:
-        "I kept going. I refused to give up. By week five, I lost 1.5 kilograms. That tiny win changed everything. Persistence had finally paid off.",
-    },
-    {
-      title: "Once I Saw Results and My Confidence Improving, There Was No Turning Back.",
-      content:
-        "From 95 kilograms down to 70. A full transformation — not just physical but mental. The mirror was no longer my enemy.",
-    },
-    {
-      title: "But Good Health Is Essential.",
-      content:
-        "It’s not about abs or aesthetics — it’s about self-love, discipline, and caring for the people who matter. Transformation is a journey inward.",
-    },
-    {
-      title: "My Only Regret?",
-      content:
-        "That I didn’t start earlier. But you know what? There’s no deadline. It’s never ‘too late’. Don’t wait for an epiphany. Begin now.",
+      year: "2025",
+      title: "500+ Transformations",
+      description: "Helped hundreds transform their lives",
+      icon: TrendingUp,
     },
   ];
 
@@ -50,7 +41,6 @@ export const About = () => {
       <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -63,48 +53,125 @@ export const About = () => {
             </p>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            The <span className="gradient-text">Transformation Journey</span>
+            About <span className="gradient-text">Amit Garg</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            A story of discipline, resilience, and finding strength beyond the mirror.
+            Transforming IT professionals through science-based fitness and sustainable nutrition
           </p>
         </motion.div>
 
-        {/* Storytelling Flow */}
-        <div className="space-y-24 max-w-4xl mx-auto">
-          {story.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: index * 0.2 }}
-              className={`glass-intense p-8 rounded-3xl ${
-                index % 2 === 0 ? "md:text-left" : "md:text-right"
-              }`}
-            >
-              <h3 className="text-2xl md:text-3xl font-bold gradient-text mb-4">
-                {item.title}
-              </h3>
-              <p className="text-lg text-foreground/80 leading-relaxed">
-                {item.content}
+        <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="glass-intense rounded-3xl p-8 animate-float">
+              <img
+                src={amitImage}
+                alt="Amit Garg - Elite Fitness Coach"
+                className="rounded-2xl w-full object-cover"
+              />
+              <div className="absolute -bottom-6 -right-6 glass-intense p-6 rounded-2xl glow-gold">
+                <div className="text-3xl font-bold gradient-text">15+</div>
+                <div className="text-sm text-foreground/70">Years Experience</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="space-y-6"
+          >
+            <h3 className="text-3xl font-bold">
+              Your Partner in <span className="gradient-text">Transformation</span>
+            </h3>
+            <div className="space-y-4 text-foreground/80 text-lg leading-relaxed">
+              <p>
+                As someone who understands the unique challenges of the IT industry—long hours,
+                desk-bound work, and high stress—I've dedicated my career to helping professionals
+                like you reclaim their health and vitality.
               </p>
-            </motion.div>
-          ))}
+              <p>
+                My approach combines evidence-based training protocols, personalized nutrition
+                strategies, and sustainable lifestyle modifications that fit seamlessly into your
+                demanding schedule.
+              </p>
+              <p>
+                With over 500 successful transformations and a 98% client success rate, I've proven
+                that sustainable fat loss and optimal health are achievable—even with the busiest
+                lifestyle.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 pt-6">
+              {[
+                { label: "Clients Coached", value: "500+" },
+                { label: "Success Rate", value: "98%" },
+                { label: "Avg. Fat Loss", value: "15-25kg" },
+                { label: "Satisfaction", value: "5★" },
+              ].map((stat, index) => (
+                <div key={index} className="glass p-4 rounded-xl">
+                  <div className="text-2xl font-bold gradient-text">{stat.value}</div>
+                  <div className="text-sm text-foreground/60">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
-        {/* CTA */}
+        {/* Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="text-center mt-24"
+          transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <p className="text-xl text-foreground/70 mb-4">
-            Transformation begins with a single step.
-          </p>
-          <button className="px-8 py-4 rounded-xl glass-intense text-lg font-semibold gradient-text hover:scale-105 transition-transform">
-            Start Your Journey
-          </button>
+          <h3 className="text-3xl md:text-4xl font-bold text-center mb-16">
+            The <span className="gradient-text">Journey</span>
+          </h3>
+
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent hidden md:block" />
+
+            <div className="space-y-12">
+              {milestones.map((milestone, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
+                  className={`flex items-center gap-8 ${
+                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  } flex-col md:flex-row`}
+                >
+                  {/* Content */}
+                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"} text-center md:text-inherit`}>
+                    <div className="glass-intense p-6 rounded-2xl inline-block">
+                      <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
+                      <h4 className="text-2xl font-bold mb-2">{milestone.title}</h4>
+                      <p className="text-foreground/70">{milestone.description}</p>
+                    </div> 
+                  </div>
+
+                  {/* Icon */}
+                  <div className="relative z-10">
+                    <div className="glass-intense p-4 rounded-full glow-gold">
+                      <milestone.icon className="w-8 h-8 text-primary" />
+                    </div>
+                  </div>
+
+                  {/* Spacer */}
+                  <div className="flex-1 hidden md:block" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
