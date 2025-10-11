@@ -43,11 +43,6 @@ export const Hero = () => {
               transition={{ delay: 0.2 }}
               className="inline-block"
             >
-              <div className="glass px-6 py-3 rounded-full">
-                <p className="text-primary font-semibold text-sm tracking-wider">
-                   
-                </p>
-              </div>
             </motion.div>
 
             {/* Main Headline */}
