@@ -53,12 +53,12 @@ export const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex flex-col gap-1"
+            className="flex flex-col items-start gap-0.5 md:flex-row md:items-center md:gap-3 pt-1"
           >
-            <div className="text-xl md:text-2xl font-bold text-primary">
+            <div className="text-lg md:text-2xl font-bold text-primary leading-tight">
               AMIT GARG
             </div>
-            <div className="text-[10px] md:text-xs font-semibold tracking-widest text-foreground/70 uppercase">
+            <div className="text-[9px] md:text-xs font-semibold tracking-wider text-foreground/70 uppercase mt-0.5 md:mt-0 md:border-l md:border-foreground/30 md:pl-3 leading-tight">
               Elite Fitness Coaching
             </div>
           </motion.div>
