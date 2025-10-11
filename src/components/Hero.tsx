@@ -80,7 +80,7 @@ export const Hero = () => {
               {[
                 { number: "500+", label: "Transformations" },
                 { number: "15+", label: "Years Experience" },
-                { number: "98%", label: "Success Rate" },
+                { number: "92%", label: "Success Rate" },
               ].map((stat, index) => (
                 <div key={index} className="glass-intense p-6 rounded-2xl">
                   <div className="text-4xl md:text-5xl font-bold gradient-text mb-2">
