@@ -56,7 +56,7 @@ export const RecipeSection = () => {
             <span className="gradient-text">Unlock</span> Stress-Free Living
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            Download our exclusive recipe ebook designed specifically for busy IT professionals
+            Your ultimate guide to managing stress, staying healthy, and performing at your best.
           </p>
         </motion.div>
 
