@@ -78,7 +78,7 @@ export const Hero = () => {
               className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-12"
             >
               {[
-                { number: "500+", label: "Transformations" },
+                { number: "400+", label: "Transformations" },
                 { number: "15+", label: "Years Experience" },
                 { number: "92%", label: "Success Rate" },
               ].map((stat, index) => (
