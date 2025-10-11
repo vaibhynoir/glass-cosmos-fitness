@@ -112,7 +112,7 @@ export const Testimonials = () => {
         >
           {[
             { value: "500+", label: "Lives Changed" },
-            { value: "98%", label: "Success Rate" },
+            { value: "92%", label: "Success Rate" },
             { value: "15-25kg", label: "Avg. Fat Loss" },
             { value: "4.9★", label: "Client Rating" },
           ].map((stat, index) => (
