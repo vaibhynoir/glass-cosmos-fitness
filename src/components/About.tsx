@@ -130,7 +130,7 @@ export const About = () => {
                 demanding schedule.
               </p>
               <p>
-                With over 500 successful transformations and a 98% client success rate, I've proven
+                With over 500 successful transformations and a 92% client success rate, I've proven
                 that sustainable fat loss and optimal health are achievable—even with the busiest
                 lifestyle.
               </p>
@@ -138,7 +138,7 @@ export const About = () => {
             <div className="grid grid-cols-2 gap-4 pt-6">
               {[
                 { label: "Clients Coached", value: "500+" },
-                { label: "Success Rate", value: "98%" },
+                { label: "Success Rate", value: "92%" },
                 { label: "Avg. Fat Loss", value: "15-25kg" },
                 { label: "Satisfaction", value: "5★" },
               ].map((stat, index) => (
