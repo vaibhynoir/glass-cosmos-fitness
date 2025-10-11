@@ -53,7 +53,7 @@ export const RecipeSection = () => {
             </p>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">Transform</span> Your Nutrition
+            <span className="gradient-text">Unlock</span> Stress-Free Living
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
             Download our exclusive recipe ebook designed specifically for busy IT professionals
