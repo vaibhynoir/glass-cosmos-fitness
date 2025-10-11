@@ -1,57 +1,56 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
 import { useInView } from "framer-motion";
-import amitBefore from "@/assets/before.jpg"; // Replace with your actual image import
-import amitAfter from "@/assets/after.jpg";  // Replace with your actual image import
+import { useRef } from "react";
 
-export const StorySection = () => {
+export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  // Timeline steps for story blocks
-  const storyBlocks = [
+  const story = [
     {
-      title: "Back in 2019, I shed almost 25 kilograms.",
-      subtitle: "Here's my journey and the wisdom it imparted.",
-      image: amitBefore,
+      title: "Back in 2019, I Shed Almost 25 Kilograms.",
+      content:
+        "Here’s my journey and the wisdom it imparted. This isn’t about achievements — it’s about perseverance and rediscovering self-belief.",
     },
     {
-      title: "Tried changing myself but never really tried!",
-      subtitle:
-        "My appearance bothered me immensely, yet I spent years evading it. I started to care about confidence and my reflection after entering the corporate world.",
-      image: amitAfter,
+      title: "Tried Changing Myself, But Never Really Tried Tried!",
+      content:
+        "I used to avoid mirrors, oversized shirts became my armor, and I convinced myself I was fine. Deep down, I wasn’t. I was evading myself.",
     },
     {
-      title: "My Daily Routine",
-      subtitle:
-        "Wake up → Get Ready → Get to office → Eat heavy food, snacks, and repeat. Day in, day out—never truly content.",
+      title: "The Wake-Up Call",
+      content:
+        "In 2017, after seeing a photo from a friend’s wedding, I knew something had to change. I joined a gym between office and home — it wasn’t easy, but it was necessary.",
     },
     {
-      title: "No Progress, But I Persisted",
-      subtitle:
-        "For the initial 4 weeks, I didn't make any progress. I kept showing up even when I felt like giving up, and finally, the scales moved.",
+      title: "For the Initial 4 Weeks, I Didn’t Make Any Progress.",
+      content:
+        "I kept going. I refused to give up. By week five, I lost 1.5 kilograms. That tiny win changed everything. Persistence had finally paid off.",
     },
     {
-      title: "Once I Saw Results, My Confidence Soared",
-      subtitle:
-        "After four weeks, my confidence improved. Ultimately, I reached 70 kg with visible abs. The turning point came when I didn't quit, even during stagnant days.",
+      title: "Once I Saw Results and My Confidence Improving, There Was No Turning Back.",
+      content:
+        "From 95 kilograms down to 70. A full transformation — not just physical but mental. The mirror was no longer my enemy.",
     },
     {
-      title: "My Only Regret: Should've Started Earlier",
-      subtitle:
-        "But you know the best part? There’s NO DEADLINE. Commence now. Don’t await an ‘epiphany’ or New Year’s resolution.",
+      title: "But Good Health Is Essential.",
+      content:
+        "It’s not about abs or aesthetics — it’s about self-love, discipline, and caring for the people who matter. Transformation is a journey inward.",
     },
     {
-      title: "But Good Health Is Essential",
-      subtitle:
-        "Over time, I've realized that appearances aren't everything. Life encompasses much more than looking good—it's about self-love, discipline, and showing up for those who matter.",
+      title: "My Only Regret?",
+      content:
+        "That I didn’t start earlier. But you know what? There’s no deadline. It’s never ‘too late’. Don’t wait for an epiphany. Begin now.",
     },
   ];
 
   return (
-    <section id="story" className="py-32 relative overflow-hidden">
+    <section id="about" className="py-32 relative overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
+
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -60,89 +59,52 @@ export const StorySection = () => {
         >
           <div className="inline-block glass px-6 py-3 rounded-full mb-6">
             <p className="text-primary font-semibold text-sm tracking-wider">
-              MY TRANSFORMATION STORY
+              MY STORY
             </p>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Shedding 25kg: <span className="gradient-text">Amit's Real Journey</span>
+            The <span className="gradient-text">Transformation Journey</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            Real struggles. Real results. From self-doubt to discipline—and how good health leads to true fulfillment.
+            A story of discipline, resilience, and finding strength beyond the mirror.
           </p>
         </motion.div>
 
-        {/* Story Timeline */}
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
-          {/* Images Block: before and after */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
-          >
-            <div className="glass-intense rounded-3xl p-8 animate-float flex flex-col gap-6">
-              <div className="flex gap-6 items-center justify-center">
-                <img
-                  src={amitBefore}
-                  alt="Before Transformation"
-                  className="rounded-2xl w-1/2 object-cover"
-                />
-                <img
-                  src={amitAfter}
-                  alt="After Transformation"
-                  className="rounded-2xl w-1/2 object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-6 right-4 glass-intense p-6 rounded-2xl glow-gold">
-                <div className="text-3xl font-bold gradient-text">25kg</div>
-                <div className="text-sm text-foreground/70">Fat Lost</div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Story Timeline Blocks */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-10"
-          >
-            {storyBlocks.map((block, idx) => (
-              <div key={idx} className="glass p-6 rounded-xl mb-4">
-                <div className="text-xl font-bold gradient-text mb-2">{block.title}</div>
-                <div className="text-foreground/80 text-lg">{block.subtitle}</div>
-                {block.image && (
-                  <img
-                    src={block.image}
-                    alt={block.title}
-                    className="rounded-xl mt-6 w-full object-cover"
-                  />
-                )}
-              </div>
-            ))}
-          </motion.div>
+        {/* Storytelling Flow */}
+        <div className="space-y-24 max-w-4xl mx-auto">
+          {story.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: index * 0.2 }}
+              className={`glass-intense p-8 rounded-3xl ${
+                index % 2 === 0 ? "md:text-left" : "md:text-right"
+              }`}
+            >
+              <h3 className="text-2xl md:text-3xl font-bold gradient-text mb-4">
+                {item.title}
+              </h3>
+              <p className="text-lg text-foreground/80 leading-relaxed">
+                {item.content}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Motivational CTA */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center"
+          transition={{ duration: 0.8, delay: 1 }}
+          className="text-center mt-24"
         >
-          <h3 className="text-3xl md:text-4xl font-bold mb-8 gradient-text">
-            Ready for Your Transformation?
-          </h3>
-          <p className="text-xl text-foreground/70 max-w-2xl mx-auto mb-8">
-            Don't wait for a perfect moment. Start your journey today—because there's never a deadline to become the best version of yourself.
+          <p className="text-xl text-foreground/70 mb-4">
+            Transformation begins with a single step.
           </p>
-          {/* Call to Action Button */}
-          <a
-            href="#contact"
-            className="glass px-8 py-4 rounded-full font-bold text-primary text-lg hover:bg-primary/10 transition"
-          >
-            Start Now
-          </a>
+          <button className="px-8 py-4 rounded-xl glass-intense text-lg font-semibold gradient-text hover:scale-105 transition-transform">
+            Start Your Journey
+          </button>
         </motion.div>
       </div>
     </section>
