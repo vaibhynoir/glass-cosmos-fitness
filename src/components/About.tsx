@@ -1,45 +1,56 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Award, Target, Users, TrendingUp } from "lucide-react";
-import amitImage from "@/assets/amit-garg.png";
+import { useInView } from "framer-motion";
+import amitBefore from "@/assets/before.jpg"; // Replace with your actual image import
+import amitAfter from "@/assets/after.jpg";  // Replace with your actual image import
 
-export const About = () => {
+export const StorySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const milestones = [
+  // Timeline steps for story blocks
+  const storyBlocks = [
     {
-      year: "2010",
-      title: "Journey Begins",
-      description: "Started personal fitness transformation journey",
-      icon: Target,
+      title: "Back in 2019, I shed almost 25 kilograms.",
+      subtitle: "Here's my journey and the wisdom it imparted.",
+      image: amitBefore,
     },
     {
-      year: "2015",
-      title: "Certified Coach",
-      description: "Became certified fitness and nutrition coach",
-      icon: Award,
+      title: "Tried changing myself but never really tried!",
+      subtitle:
+        "My appearance bothered me immensely, yet I spent years evading it. I started to care about confidence and my reflection after entering the corporate world.",
+      image: amitAfter,
     },
     {
-      year: "2018",
-      title: "IT Specialist",
-      description: "Focused on helping IT professionals achieve their goals",
-      icon: Users,
+      title: "My Daily Routine",
+      subtitle:
+        "Wake up → Get Ready → Get to office → Eat heavy food, snacks, and repeat. Day in, day out—never truly content.",
     },
     {
-      year: "2025",
-      title: "500+ Transformations",
-      description: "Helped hundreds transform their lives",
-      icon: TrendingUp,
+      title: "No Progress, But I Persisted",
+      subtitle:
+        "For the initial 4 weeks, I didn't make any progress. I kept showing up even when I felt like giving up, and finally, the scales moved.",
+    },
+    {
+      title: "Once I Saw Results, My Confidence Soared",
+      subtitle:
+        "After four weeks, my confidence improved. Ultimately, I reached 70 kg with visible abs. The turning point came when I didn't quit, even during stagnant days.",
+    },
+    {
+      title: "My Only Regret: Should've Started Earlier",
+      subtitle:
+        "But you know the best part? There’s NO DEADLINE. Commence now. Don’t await an ‘epiphany’ or New Year’s resolution.",
+    },
+    {
+      title: "But Good Health Is Essential",
+      subtitle:
+        "Over time, I've realized that appearances aren't everything. Life encompasses much more than looking good—it's about self-love, discipline, and showing up for those who matter.",
     },
   ];
 
   return (
-    <section id="about" className="py-32 relative overflow-hidden">
-      {/* Background Glow */}
+    <section id="story" className="py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
-
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -49,129 +60,89 @@ export const About = () => {
         >
           <div className="inline-block glass px-6 py-3 rounded-full mb-6">
             <p className="text-primary font-semibold text-sm tracking-wider">
-              MY STORY
+              MY TRANSFORMATION STORY
             </p>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            About <span className="gradient-text">Amit Garg</span>
+            Shedding 25kg: <span className="gradient-text">Amit's Real Journey</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-            Transforming IT professionals through science-based fitness and sustainable nutrition
+            Real struggles. Real results. From self-doubt to discipline—and how good health leads to true fulfillment.
           </p>
         </motion.div>
 
+        {/* Story Timeline */}
         <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
-          {/* Image */}
+          {/* Images Block: before and after */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
+            className="space-y-8"
           >
-            <div className="glass-intense rounded-3xl p-8 animate-float">
-              <img
-                src={amitImage}
-                alt="Amit Garg - Elite Fitness Coach"
-                className="rounded-2xl w-full object-cover"
-              />
-              <div className="absolute -bottom-6 -right-6 glass-intense p-6 rounded-2xl glow-gold">
-                <div className="text-3xl font-bold gradient-text">15+</div>
-                <div className="text-sm text-foreground/70">Years Experience</div>
+            <div className="glass-intense rounded-3xl p-8 animate-float flex flex-col gap-6">
+              <div className="flex gap-6 items-center justify-center">
+                <img
+                  src={amitBefore}
+                  alt="Before Transformation"
+                  className="rounded-2xl w-1/2 object-cover"
+                />
+                <img
+                  src={amitAfter}
+                  alt="After Transformation"
+                  className="rounded-2xl w-1/2 object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 right-4 glass-intense p-6 rounded-2xl glow-gold">
+                <div className="text-3xl font-bold gradient-text">25kg</div>
+                <div className="text-sm text-foreground/70">Fat Lost</div>
               </div>
             </div>
           </motion.div>
 
-          {/* Content */}
+          {/* Story Timeline Blocks */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
+            className="space-y-10"
           >
-            <h3 className="text-3xl font-bold">
-              Your Partner in <span className="gradient-text">Transformation</span>
-            </h3>
-            <div className="space-y-4 text-foreground/80 text-lg leading-relaxed">
-              <p>
-                As someone who understands the unique challenges of the IT industry—long hours,
-                desk-bound work, and high stress—I've dedicated my career to helping professionals
-                like you reclaim their health and vitality.
-              </p>
-              <p>
-                My approach combines evidence-based training protocols, personalized nutrition
-                strategies, and sustainable lifestyle modifications that fit seamlessly into your
-                demanding schedule.
-              </p>
-              <p>
-                With over 500 successful transformations and a 98% client success rate, I've proven
-                that sustainable fat loss and optimal health are achievable—even with the busiest
-                lifestyle.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-6">
-              {[
-                { label: "Clients Coached", value: "500+" },
-                { label: "Success Rate", value: "98%" },
-                { label: "Avg. Fat Loss", value: "15-25kg" },
-                { label: "Satisfaction", value: "5★" },
-              ].map((stat, index) => (
-                <div key={index} className="glass p-4 rounded-xl">
-                  <div className="text-2xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-sm text-foreground/60">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+            {storyBlocks.map((block, idx) => (
+              <div key={idx} className="glass p-6 rounded-xl mb-4">
+                <div className="text-xl font-bold gradient-text mb-2">{block.title}</div>
+                <div className="text-foreground/80 text-lg">{block.subtitle}</div>
+                {block.image && (
+                  <img
+                    src={block.image}
+                    alt={block.title}
+                    className="rounded-xl mt-6 w-full object-cover"
+                  />
+                )}
+              </div>
+            ))}
           </motion.div>
         </div>
 
-        {/* Timeline */}
+        {/* Motivational CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-center"
         >
-          <h3 className="text-3xl md:text-4xl font-bold text-center mb-16">
-            The <span className="gradient-text">Journey</span>
+          <h3 className="text-3xl md:text-4xl font-bold mb-8 gradient-text">
+            Ready for Your Transformation?
           </h3>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent hidden md:block" />
-
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
-                  className={`flex items-center gap-8 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  } flex-col md:flex-row`}
-                >
-                  {/* Content */}
-                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"} text-center md:text-inherit`}>
-                    <div className="glass-intense p-6 rounded-2xl inline-block">
-                      <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
-                      <h4 className="text-2xl font-bold mb-2">{milestone.title}</h4>
-                      <p className="text-foreground/70">{milestone.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Icon */}
-                  <div className="relative z-10">
-                    <div className="glass-intense p-4 rounded-full glow-gold">
-                      <milestone.icon className="w-8 h-8 text-primary" />
-                    </div>
-                  </div>
-
-                  {/* Spacer */}
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <p className="text-xl text-foreground/70 max-w-2xl mx-auto mb-8">
+            Don't wait for a perfect moment. Start your journey today—because there's never a deadline to become the best version of yourself.
+          </p>
+          {/* Call to Action Button */}
+          <a
+            href="#contact"
+            className="glass px-8 py-4 rounded-full font-bold text-primary text-lg hover:bg-primary/10 transition"
+          >
+            Start Now
+          </a>
         </motion.div>
       </div>
     </section>
