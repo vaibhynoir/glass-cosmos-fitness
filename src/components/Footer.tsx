@@ -1,4 +1,4 @@
-import { Mail, Instagram, Linkedin, Facebook } from "lucide-react";
+import { Mail, Instagram, Linkedin, Phone } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -35,21 +35,32 @@ export const Footer = () => {
             <h4 className="text-lg font-bold">Get In Touch</h4>
             <div className="space-y-3">
               <a
-                href="sculptbyag@gmail.com"
+                href="mailto:sculptbyag@gmail.com"
                 className="flex items-center gap-3 text-foreground/70 hover:text-primary transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
                 sculptbyag@gmail.com
               </a>
+              <a
+                href="tel:+919599500350"
+                className="flex items-center gap-3 text-foreground/70 hover:text-primary transition-colors text-sm"
+              >
+                <Phone className="w-4 h-4" />
+                +91 9599500350
+              </a>
               <div className="flex gap-4 pt-2">
                 {[
-                  { icon: Instagram, href: "#" },
-                  { icon: Facebook, href: "#" },
+                  {
+                    icon: Instagram,
+                    href: "https://www.instagram.com/getfitwithamit?utm_source=ig_web_button_share_sheet&igsh=YWE1ejFwdjhpYjV0",
+                  },
                   { icon: Linkedin, href: "#" },
                 ].map((social, index) => (
                   <a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="glass p-3 rounded-full hover:glass-intense transition-all hover:scale-110 glow-gold"
                   >
                     <social.icon className="w-5 h-5 text-primary" />
