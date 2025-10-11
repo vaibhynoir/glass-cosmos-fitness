@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Award, Target, Users, TrendingUp } from "lucide-react";
+import { Sparkles, Target, Flame, Zap, ArrowUp, Heart, Clock } from "lucide-react";
 import amitImage from "@/assets/amit-garg.png";
 
 export const About = () => {
@@ -10,28 +10,53 @@ export const About = () => {
 
   const milestones = [
     {
-      year: "2010",
-      title: "Journey Begins",
-      description: "Started personal fitness transformation journey",
+      year: "2019",
+      title: "Back in 2019, I Shed Almost 25 Kilograms",
+      description:
+        "Here’s my journey and the wisdom it imparted. This isn’t about achievements — it’s about perseverance and rediscovering self-belief.",
+      icon: Sparkles,
+    },
+    {
+      year: "Before",
+      title: "Tried Changing Myself, But Never Really Tried Tried!",
+      description:
+        "I avoided mirrors, wore loose t-shirts, and convinced myself I was fine. But deep down, I knew I was evading my true self.",
       icon: Target,
     },
     {
-      year: "2015",
-      title: "Certified Coach",
-      description: "Became certified fitness and nutrition coach",
-      icon: Award,
+      year: "2017",
+      title: "The Wake-Up Call",
+      description:
+        "After seeing a photo at a friend’s wedding, I realized it was time to change. I joined a gym between office hours and refused to make excuses.",
+      icon: Flame,
     },
     {
-      year: "2018",
-      title: "IT Specialist",
-      description: "Focused on helping IT professionals achieve their goals",
-      icon: Users,
+      year: "Week 4",
+      title: "No Progress — Yet No Giving Up",
+      description:
+        "Four weeks in, I saw zero results. But I persisted. By week five, I lost 1.5 kilograms — proof that consistency beats motivation.",
+      icon: Zap,
     },
     {
-      year: "2025",
-      title: "500+ Transformations",
-      description: "Helped hundreds transform their lives",
-      icon: TrendingUp,
+      year: "Turning Point",
+      title: "Results, Confidence & No Turning Back",
+      description:
+        "The mirror stopped being my enemy. From 95kg to 70kg — not just a body transformation, but a mindset revolution.",
+      icon: ArrowUp,
+    },
+    {
+      year: "Lesson",
+      title: "Good Health Is Essential",
+      description:
+        "It’s not just about looking fit — it’s about discipline, self-respect, and caring for your loved ones. True transformation starts within.",
+      icon: Heart,
+    },
+    {
+      year: "Regret",
+      title: "My Only Regret?",
+      description:
+        "That I didn’t start sooner. But there’s no deadline. It’s never too late. Don’t wait for the ‘perfect time’ — start now.",
+      icon: Clock,
     },
   ];
 
@@ -41,6 +66,7 @@ export const About = () => {
       <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
 
       <div className="container mx-auto px-4 relative z-10" ref={ref}>
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -60,6 +86,7 @@ export const About = () => {
           </p>
         </motion.div>
 
+        {/* Image + Content */}
         <div className="grid md:grid-cols-2 gap-16 items-center mb-32">
           {/* Image */}
           <motion.div
@@ -108,7 +135,6 @@ export const About = () => {
                 lifestyle.
               </p>
             </div>
-
             <div className="grid grid-cols-2 gap-4 pt-6">
               {[
                 { label: "Clients Coached", value: "500+" },
@@ -151,12 +177,18 @@ export const About = () => {
                   } flex-col md:flex-row`}
                 >
                   {/* Content */}
-                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"} text-center md:text-inherit`}>
+                  <div
+                    className={`flex-1 ${
+                      index % 2 === 0 ? "md:text-right" : "md:text-left"
+                    } text-center md:text-inherit`}
+                  >
                     <div className="glass-intense p-6 rounded-2xl inline-block">
-                      <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
+                      <div className="text-primary font-bold text-lg mb-2">
+                        {milestone.year}
+                      </div>
                       <h4 className="text-2xl font-bold mb-2">{milestone.title}</h4>
                       <p className="text-foreground/70">{milestone.description}</p>
-                    </div> 
+                    </div>
                   </div>
 
                   {/* Icon */}
