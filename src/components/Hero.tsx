@@ -42,6 +42,13 @@ export const Hero = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
               className="inline-block"
+            >
+              <div className="glass px-6 py-3 rounded-full">
+                <p className="text-primary font-semibold text-sm tracking-wider">
+                   
+                </p>
+              </div>
+            </motion.div>
 
             {/* Main Headline */}
             <motion.h1
