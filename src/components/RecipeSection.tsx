@@ -26,12 +26,12 @@ export const RecipeSection = () => {
   };
 
   const features = [
-    "50+ High-Protein Recipes",
-    "Meal Prep Strategies",
-    "Macro-Balanced Meals",
-    "Quick 15-Min Options",
-    "Shopping Lists Included",
-    "Vegetarian & Non-Veg",
+    "Science-Backed Stress Tips",
+    "Real-Life Practical Techniques",
+    "Stress Types & Effects Explained",
+    "Actionable Daily Habits",
+    "Prevent Lifestyle Diseases",
+    "Boost Focus & Energy",
   ];
 
   return (
