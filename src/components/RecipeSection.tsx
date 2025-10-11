@@ -109,11 +109,10 @@ export const RecipeSection = () => {
             >
               <div>
                 <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                  Get Your Free <span className="gradient-text">Recipe Book</span>
+                  Get Your Free <span className="gradient-text">eBook</span>
                 </h3>
                 <p className="text-lg text-foreground/70">
-                  Join 10,000+ professionals who have transformed their nutrition and achieved
-                  sustainable fat loss.
+                  Join thousands who’ve taken control of their stress and transformed their lifestyle.
                 </p>
               </div>
 
