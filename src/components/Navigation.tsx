@@ -53,9 +53,14 @@ export const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl font-bold gradient-text"
+            className="flex flex-col gap-1"
           >
-            AMIT GARG
+            <div className="text-xl md:text-2xl font-bold text-primary">
+              AMIT GARG
+            </div>
+            <div className="text-[10px] md:text-xs font-semibold tracking-widest text-foreground/70 uppercase">
+              Elite Fitness Coaching
+            </div>
           </motion.div>
 
           {/* Desktop Navigation */}
