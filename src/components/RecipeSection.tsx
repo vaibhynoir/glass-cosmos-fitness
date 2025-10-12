@@ -21,7 +21,7 @@ export const RecipeSection = () => {
   };
 
   return (
-    <section id="recipes" className="py-32 relative overflow-hidden">
+    <section id="ebook" className="py-32 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute top-1/4 right-1/4 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[150px] animate-glow-pulse" />
       <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px]" />
