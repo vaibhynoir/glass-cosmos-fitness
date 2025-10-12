@@ -61,7 +61,7 @@ export const RecipeSection = () => {
                 <div className="absolute inset-0 bg-primary/20 rounded-3xl blur-3xl" />
                 <img
                   src="https://ik.imagekit.io/h7eyqsxl7/Screenshot%202025-10-11%20104919.png?updatedAt=1760160034268"
-                  alt="Free Recipe Ebook"
+                  alt="Free eBook"
                   className="relative z-10 w-full max-w-md mx-auto drop-shadow-2xl"
                 />
               </div>

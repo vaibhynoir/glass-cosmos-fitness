@@ -34,7 +34,7 @@ export const Navigation = () => {
   const navLinks = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
-    { id: "recipes", label: "EBook" },
+    { id: "ebook", label: "EBook" },
     { id: "testimonials", label: "Transformations" },
   ];
 
