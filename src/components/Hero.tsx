@@ -101,7 +101,7 @@ export const Hero = () => {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12"
             >
               <Button
-                onClick={() => scrollToSection("recipes")}
+                onClick={() => scrollToSection("Ebook")}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-7 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105 group"
               >
                 Get Free Recipe Book
