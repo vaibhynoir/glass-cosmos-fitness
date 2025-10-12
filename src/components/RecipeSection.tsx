@@ -1,26 +1,25 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { BookOpen, Mail, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { Check } from "lucide-react";
 
 export const RecipeSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubmitted(true);
-      toast.success("Success! Check your inbox for the recipe ebook.", {
-        duration: 5000,
-      });
-      setEmail("");
+  useEffect(() => {
+    const container = document.getElementById('convertkit-container');
+    if (container && window.ConvertKit) {
+      window.ConvertKit.render(container);
     }
-  };
+  }, [isInView]);
+
+  declare global {
+    interface Window {
+      ConvertKit?: {
+        render: (element: HTMLElement) => void;
+      };
+    }
+  }
 
   const features = [
     "Science-Backed Stress Tips",
@@ -121,46 +120,10 @@ export const RecipeSection = () => {
                 ))}
               </div>
 
-              {/* Email Form */}
-              {!isSubmitted ? (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
-                    <Input
-                      type="email"
-                      placeholder="Enter your email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="glass-intense pl-12 pr-4 py-7 text-lg border-primary/30 focus:border-primary transition-all"
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-7 rounded-full text-lg glow-gold transition-all duration-300 hover:scale-105"
-                  >
-                    Download Free Ebook Now
-                  </Button>
-                  <p className="text-xs text-foreground/50 text-center">
-                    No spam. Unsubscribe anytime. Your data is secure.
-                  </p>
-                </form>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="glass-intense p-8 rounded-2xl text-center space-y-4"
-                >
-                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check className="w-8 h-8 text-primary" />
-                  </div>
-                  <h4 className="text-2xl font-bold">Check Your Email!</h4>
-                  <p className="text-foreground/70">
-                    Your free ebook is on its way. Check your inbox (and spam folder) for
-                    the download link.
-                  </p>
-                </motion.div>
-              )}
+              {/* ConvertKit Form Container */}
+              <div id="convertkit-container" className="space-y-4">
+                {/* ConvertKit will hydrate this container */}
+              </div>
             </motion.div>
           </div>
         </div>
