@@ -9,14 +9,10 @@ import { Footer } from "@/components/Footer";
 import { ParticleBackground } from "@/components/ParticleBackground";
 
 const Index = () => {
-  const [visibleSection, setVisibleSection] = useState<'none' | 'ebook' | 'transformations'>('none');
+  const [showEbook, setShowEbook] = useState(false);
 
   const handleShowEbook = () => {
-    setVisibleSection(visibleSection === 'ebook' ? 'none' : 'ebook');
-  };
-
-  const handleShowTransformations = () => {
-    setVisibleSection(visibleSection === 'transformations' ? 'none' : 'transformations');
+    setShowEbook(!showEbook);
   };
 
   return (
@@ -24,12 +20,12 @@ const Index = () => {
       <ParticleBackground />
       
       <div className="relative z-10">
-        <Navigation onTransformationsClick={handleShowTransformations} />
+        <Navigation />
         <Hero onEbookClick={handleShowEbook} />
         <About />
         
         <AnimatePresence mode="wait">
-          {visibleSection === 'ebook' && (
+          {showEbook && (
             <motion.div
               key="ebook"
               initial={{ opacity: 0, y: 20 }}
@@ -40,19 +36,9 @@ const Index = () => {
               <RecipeSection />
             </motion.div>
           )}
-          
-          {visibleSection === 'transformations' && (
-            <motion.div
-              key="transformations"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
-              <Testimonials />
-            </motion.div>
-          )}
         </AnimatePresence>
+        
+        <Testimonials />
         
         <Footer />
       </div>
