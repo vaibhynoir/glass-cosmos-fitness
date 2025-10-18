@@ -1,6 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { MasonryGrid } from "@/components/ui/image-testimonial-grid";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -43,6 +45,7 @@ export const Testimonials = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [columns, setColumns] = useState(3);
+  const navigate = useNavigate();
 
   const instagramPosts = [
     "https://www.instagram.com/p/C19ylpbS4Wn/",
@@ -103,6 +106,21 @@ export const Testimonials = () => {
             <InstagramEmbed key={index} url={url} />
           ))}
         </MasonryGrid>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex justify-center mt-12"
+        >
+          <Button
+            onClick={() => navigate("/transformations")}
+            size="lg"
+            className="glass-intense hover:scale-105 transition-all duration-300"
+          >
+            Show More Transformations
+          </Button>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

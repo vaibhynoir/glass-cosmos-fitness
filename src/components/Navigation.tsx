@@ -17,6 +17,10 @@ export const Navigation = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
+    if (id === "testimonials") {
+      window.location.href = "/transformations";
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
