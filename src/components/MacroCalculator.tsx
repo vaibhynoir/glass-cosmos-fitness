@@ -35,6 +35,10 @@ export const MacroCalculator = () => {
   const [activityLevel, setActivityLevel] = useState("");
   const [goal, setGoal] = useState("");
   const [results, setResults] = useState<MacroResults | null>(null);
+  const [step, setStep] = useState<'form' | 'email-capture' | 'results'>('form');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const calculateMacros = () => {
     const ageNum = parseInt(age);
@@ -44,6 +48,15 @@ export const MacroCalculator = () => {
     if (!ageNum || !heightNum || !weightNum || !gender || !activityLevel || !goal) {
       return;
     }
+
+    // Move to email capture step (don't show results yet)
+    setStep('email-capture');
+  };
+
+  const computeMacroResults = (): MacroResults => {
+    const ageNum = parseInt(age);
+    const heightNum = parseFloat(height);
+    const weightNum = parseFloat(weight);
 
     // Mifflin-St Jeor Formula
     let bmr: number;
@@ -76,12 +89,47 @@ export const MacroCalculator = () => {
     const remainingCalories = tdee - (protein * 4 + fats * 9);
     const carbs = remainingCalories / 4;
 
-    setResults({
+    return {
       calories: Math.round(tdee),
       protein: Math.round(protein),
       carbs: Math.round(carbs),
       fats: Math.round(fats),
-    });
+    };
+  };
+
+  const handleEmailSubmit = async () => {
+    if (!name || !email || !email.includes('@')) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const macroResults = computeMacroResults();
+      
+      // Send data to Google Sheets
+      await fetch("https://script.google.com/macros/s/AKfycbwthfEgncufB7vS4lkBn27fNgYaG3Vb_K_go0z6HFx8GWW9G3Qbg8fgwsIQX8SCeXSJ/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          age: age,
+          height: height,
+          weight: weight,
+          gender: gender,
+          activityLevel: activityLevel,
+          goal: goal
+        })
+      });
+
+      setResults(macroResults);
+      setStep('results');
+    } catch (error) {
+      console.error('Error submitting data:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetCalculator = () => {
@@ -92,6 +140,9 @@ export const MacroCalculator = () => {
     setActivityLevel("");
     setGoal("");
     setResults(null);
+    setStep('form');
+    setName("");
+    setEmail("");
   };
 
   return (
@@ -113,7 +164,7 @@ export const MacroCalculator = () => {
         </DialogHeader>
 
         <AnimatePresence mode="wait">
-          {!results ? (
+          {step === 'form' && (
             <motion.div
               key="form"
               initial={{ opacity: 0, y: 20 }}
@@ -226,7 +277,62 @@ export const MacroCalculator = () => {
                 Calculate Macros
               </Button>
             </motion.div>
-          ) : (
+          )}
+
+          {step === 'email-capture' && (
+            <motion.div
+              key="email-capture"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              <div className="text-center space-y-2 mb-8">
+                <h3 className="text-2xl font-bold gradient-text">Almost There!</h3>
+                <p className="text-foreground/70">Enter your name and email to get your personalized macro results</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-foreground/90 font-medium">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="glass bg-background/50 border-primary/20 focus:border-primary"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-foreground/90 font-medium">
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="glass bg-background/50 border-primary/20 focus:border-primary"
+                  />
+                </div>
+
+                <Button
+                  onClick={handleEmailSubmit}
+                  disabled={isSubmitting || !email || !name}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105"
+                >
+                  {isSubmitting ? "Sending..." : "Show My Results"}
+                </Button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 'results' && results && (
             <motion.div
               key="results"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -234,8 +340,16 @@ export const MacroCalculator = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               className="space-y-6"
             >
-              <div className="text-center space-y-2 mb-8">
-                <h3 className="text-2xl font-bold gradient-text">Your Personalized Macros</h3>
+              <div className="text-center space-y-2 mb-4">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", duration: 0.5 }}
+                  className="inline-block text-4xl mb-2"
+                >
+                  ✅
+                </motion.div>
+                <h3 className="text-2xl font-bold gradient-text">Your results are ready!</h3>
                 <p className="text-foreground/70">Based on your profile and goals</p>
               </div>
 
@@ -251,7 +365,7 @@ export const MacroCalculator = () => {
                     {results.calories}
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
-                    Daily Calories
+                    kcal/day
                   </div>
                 </motion.div>
 
@@ -281,7 +395,7 @@ export const MacroCalculator = () => {
                     {results.carbs}g
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
-                    Carbohydrates
+                    Carbs
                   </div>
                 </motion.div>
 
