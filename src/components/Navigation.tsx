@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MacroCalculator } from "@/components/MacroCalculator";
 
-export const Navigation = ({ onTransformationsClick }: { onTransformationsClick: () => void }) => {
+export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -17,15 +17,10 @@ export const Navigation = ({ onTransformationsClick }: { onTransformationsClick:
   }, []);
 
   const scrollToSection = (id: string) => {
-    if (id === "testimonials") {
-      onTransformationsClick();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
       setIsMobileMenuOpen(false);
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        setIsMobileMenuOpen(false);
-      }
     }
   };
 

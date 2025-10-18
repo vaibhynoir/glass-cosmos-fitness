@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-bg.jpg";
 
-export const Hero = ({ onEbookClick }: { onEbookClick: () => void }) => {
+export const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -101,7 +101,7 @@ export const Hero = ({ onEbookClick }: { onEbookClick: () => void }) => {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12"
             >
               <Button
-                onClick={onEbookClick}
+                onClick={() => scrollToSection("Ebook")}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-7 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105 group"
               >
                 Get Free eBook
