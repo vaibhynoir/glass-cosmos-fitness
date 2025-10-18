@@ -15,21 +15,17 @@ const MacroCalculator = () => {
   const [results, setResults] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Function to calculate real macros
   const computeMacroResults = () => {
-    const { age, height, weight, gender, activityLevel, goal } = form;
-    const w = parseFloat(weight);
-    const h = parseFloat(height);
-    const a = parseFloat(age);
+    const w = parseFloat(form.weight);
+    const h = parseFloat(form.height);
+    const a = parseFloat(form.age);
 
-    // BMR calculation
     let bmr =
-      gender === "male"
+      form.gender === "male"
         ? 10 * w + 6.25 * h - 5 * a + 5
         : 10 * w + 6.25 * h - 5 * a - 161;
 
-    // Activity multiplier
-    const activityMultipliers: Record<string, number> = {
+    const multipliers: Record<string, number> = {
       sedentary: 1.2,
       light: 1.375,
       moderate: 1.55,
@@ -37,16 +33,14 @@ const MacroCalculator = () => {
       veryActive: 1.9,
     };
 
-    let calories = bmr * (activityMultipliers[activityLevel] || 1.55);
+    let calories = bmr * (multipliers[form.activityLevel] || 1.55);
 
-    // Goal adjustment
-    if (goal === "cut") calories -= 300;
-    else if (goal === "bulk") calories += 300;
+    if (form.goal === "cut") calories -= 300;
+    else if (form.goal === "bulk") calories += 300;
 
-    // Macronutrients
-    const protein = w * 2; // grams
-    const fats = (calories * 0.25) / 9; // grams
-    const carbs = (calories - (protein * 4 + fats * 9)) / 4; // grams
+    const protein = w * 2;
+    const fats = (calories * 0.25) / 9;
+    const carbs = (calories - (protein * 4 + fats * 9)) / 4;
 
     return {
       calories: Math.round(calories),
@@ -56,7 +50,6 @@ const MacroCalculator = () => {
     };
   };
 
-  // ✅ Send data to Google Sheet
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -65,11 +58,10 @@ const MacroCalculator = () => {
     setResults(macroResults);
 
     try {
-      const response = await fetch(
+      await fetch(
         "https://script.google.com/macros/s/AKfycbxBkwa2TUnflvU_70wmkwfm-4qkTcL1MBvVkQB_MANwmVNVQQEo9dNxQGjisphsot9p/exec",
         {
           method: "POST",
-          mode: "no-cors",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
@@ -99,13 +91,12 @@ const MacroCalculator = () => {
           <input
             key={field}
             type={field === "email" ? "email" : "text"}
-            name={field}
             placeholder={field[0].toUpperCase() + field.slice(1)}
-            className="w-full border p-2 rounded"
             value={(form as any)[field]}
             onChange={(e) =>
               setForm({ ...form, [field]: e.target.value })
             }
+            className="w-full border p-2 rounded"
             required
           />
         ))}
