@@ -102,7 +102,7 @@ export const About = () => {
                 className="rounded-2xl w-full object-cover"
               />
               <div className="absolute -bottom-6 -right-6 glass-intense p-6 rounded-2xl glow-gold">
-                <div className="text-3xl font-bold gradient-text">15+</div>
+                <div className="text-3xl font-bold gradient-text">4+</div>
                 <div className="text-sm text-foreground/70">Years Experience</div>
               </div>
             </div>
