@@ -79,7 +79,7 @@ export const Hero = () => {
             >
               {[
                 { number: "400+", label: "Transformations" },
-                { number: "15+", label: "Years Experience" },
+                { number: "4+", label: "Years Experience" },
                 { number: "92%", label: "Success Rate" },
               ].map((stat, index) => (
                 <div key={index} className="glass-intense p-6 rounded-2xl">
