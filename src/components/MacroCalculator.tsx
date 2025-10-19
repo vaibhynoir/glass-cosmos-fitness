@@ -1,16 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, X } from "lucide-react";
+import { Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -18,135 +11,176 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface MacroResults {
-  calories: number;
+  bmr: number;
+  tdee: number;
+  targetCalories: number;
   protein: number;
   carbs: number;
   fats: number;
 }
 
+interface PhysicalDetails {
+  age: string;
+  gender: string;
+  weight: string;
+  height: string;
+  activityLevel: string;
+  goal: string;
+}
+
 export const MacroCalculator = () => {
   const [open, setOpen] = useState(false);
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [activityLevel, setActivityLevel] = useState("");
-  const [goal, setGoal] = useState("");
-  const [results, setResults] = useState<MacroResults | null>(null);
-  const [step, setStep] = useState<'form' | 'email-capture' | 'results'>('form');
+  const [step, setStep] = useState<'details' | 'contact' | 'results'>('details');
+  const [physicalDetails, setPhysicalDetails] = useState<PhysicalDetails>({
+    age: "",
+    gender: "",
+    weight: "",
+    height: "",
+    activityLevel: "",
+    goal: "",
+  });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [macroResults, setMacroResults] = useState<MacroResults | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const calculateMacros = () => {
-    const ageNum = parseInt(age);
-    const heightNum = parseFloat(height);
-    const weightNum = parseFloat(weight);
+  const calculateMacros = (details: PhysicalDetails): MacroResults => {
+    const age = parseFloat(details.age);
+    const weight = parseFloat(details.weight);
+    const height = parseFloat(details.height);
 
-    if (!ageNum || !heightNum || !weightNum || !gender || !activityLevel || !goal) {
-      return;
-    }
-
-    // Move to email capture step (don't show results yet)
-    setStep('email-capture');
-  };
-
-  const computeMacroResults = (): MacroResults => {
-    const ageNum = parseInt(age);
-    const heightNum = parseFloat(height);
-    const weightNum = parseFloat(weight);
-
-    // Mifflin-St Jeor Formula
     let bmr: number;
-    if (gender === "male") {
-      bmr = 10 * weightNum + 6.25 * heightNum - 5 * ageNum + 5;
+
+    if (details.gender === "male") {
+      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
     } else {
-      bmr = 10 * weightNum + 6.25 * heightNum - 5 * ageNum - 161;
+      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
     }
 
-    // Activity multipliers
     const activityMultipliers: { [key: string]: number } = {
       sedentary: 1.2,
       light: 1.375,
       moderate: 1.55,
-      very: 1.725,
+      active: 1.725,
+      very_active: 1.9,
     };
 
-    let tdee = bmr * activityMultipliers[activityLevel];
+    const tdee = bmr * activityMultipliers[details.activityLevel];
 
-    // Goal adjustments
-    if (goal === "loss") {
-      tdee = tdee - 500; // 500 calorie deficit
-    } else if (goal === "gain") {
-      tdee = tdee + 300; // 300 calorie surplus
+    let targetCalories: number;
+    if (details.goal === "lose") {
+      targetCalories = tdee - 500;
+    } else if (details.goal === "gain") {
+      targetCalories = tdee + 300;
+    } else {
+      targetCalories = tdee;
     }
 
-    // Macro calculations
-    const protein = weightNum * 2.2; // 2.2g per kg
-    const fats = weightNum * 1; // 1g per kg
-    const remainingCalories = tdee - (protein * 4 + fats * 9);
-    const carbs = remainingCalories / 4;
+    const protein = Math.round(weight * 2.2);
+    const fats = Math.round((targetCalories * 0.25) / 9);
+    const remainingCalories = targetCalories - (protein * 4) - (fats * 9);
+    const carbs = Math.round(remainingCalories / 4);
 
     return {
-      calories: Math.round(tdee),
-      protein: Math.round(protein),
-      carbs: Math.round(carbs),
-      fats: Math.round(fats),
+      bmr: Math.round(bmr),
+      tdee: Math.round(tdee),
+      targetCalories: Math.round(targetCalories),
+      protein,
+      carbs,
+      fats,
     };
   };
 
-  const handleEmailSubmit = async () => {
-    if (!name || !email || !email.includes('@')) {
+  const handleDetailsSubmit = () => {
+    if (!physicalDetails.age || !physicalDetails.gender || !physicalDetails.weight ||
+        !physicalDetails.height || !physicalDetails.activityLevel || !physicalDetails.goal) {
+      return;
+    }
+
+    const results = calculateMacros(physicalDetails);
+    setMacroResults(results);
+    setStep('contact');
+  };
+
+  const handleContactSubmit = async () => {
+    if (!name || !email || !email.includes('@') || !macroResults) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
-      const macroResults = computeMacroResults();
-      
-      // Send data to Google Sheets
-      await fetch("https://script.google.com/macros/s/AKfycbwthfEgncufB7vS4lkBn27fNgYaG3Vb_K_go0z6HFx8GWW9G3Qbg8fgwsIQX8SCeXSJ/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          age: age,
-          height: height,
-          weight: weight,
-          gender: gender,
-          activityLevel: activityLevel,
-          goal: goal
-        })
+      await supabase.from('macro_calculations').insert({
+        name,
+        email,
+        age: parseInt(physicalDetails.age),
+        gender: physicalDetails.gender,
+        weight: parseFloat(physicalDetails.weight),
+        height: parseFloat(physicalDetails.height),
+        activity_level: physicalDetails.activityLevel,
+        goal: physicalDetails.goal,
+        bmr: macroResults.bmr,
+        tdee: macroResults.tdee,
+        target_calories: macroResults.targetCalories,
+        protein: macroResults.protein,
+        carbs: macroResults.carbs,
+        fats: macroResults.fats,
       });
 
-      setResults(macroResults);
+      await fetch("https://script.google.com/macros/s/AKfycby19uhDJsWjvcpiYvv85sThLW3CzX0rHsGgzMed16uQpQVLMAkIBTgVCNFeO3grDJhZVQ/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+
       setStep('results');
     } catch (error) {
       console.error('Error submitting data:', error);
+      setStep('results');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const resetCalculator = () => {
-    setAge("");
-    setGender("");
-    setHeight("");
-    setWeight("");
-    setActivityLevel("");
-    setGoal("");
-    setResults(null);
-    setStep('form');
+    setStep('details');
+    setPhysicalDetails({
+      age: "",
+      gender: "",
+      weight: "",
+      height: "",
+      activityLevel: "",
+      goal: "",
+    });
     setName("");
     setEmail("");
+    setMacroResults(null);
+  };
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setTimeout(() => resetCalculator(), 300);
+    }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -164,47 +198,67 @@ export const MacroCalculator = () => {
         </DialogHeader>
 
         <AnimatePresence mode="wait">
-          {step === 'form' && (
+          {step === 'details' && (
             <motion.div
-              key="form"
+              key="details"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Age */}
+              <div className="text-center space-y-2 mb-6">
+                <h3 className="text-2xl font-bold gradient-text">Let's Calculate Your Macros</h3>
+                <p className="text-foreground/70">Enter your details for personalized results</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="age" className="text-foreground/90 font-medium">
-                    Age
+                    Age (years)
                   </Label>
                   <Input
                     id="age"
                     type="number"
                     placeholder="25"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
+                    value={physicalDetails.age}
+                    onChange={(e) => setPhysicalDetails({...physicalDetails, age: e.target.value})}
                     className="glass bg-background/50 border-primary/20 focus:border-primary"
                   />
                 </div>
 
-                {/* Gender */}
                 <div className="space-y-2">
                   <Label htmlFor="gender" className="text-foreground/90 font-medium">
                     Gender
                   </Label>
-                  <Select value={gender} onValueChange={setGender}>
+                  <Select
+                    value={physicalDetails.gender}
+                    onValueChange={(value) => setPhysicalDetails({...physicalDetails, gender: value})}
+                  >
                     <SelectTrigger className="glass bg-background/50 border-primary/20 focus:border-primary">
                       <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
-                    <SelectContent className="glass-intense border-primary/20">
+                    <SelectContent>
                       <SelectItem value="male">Male</SelectItem>
                       <SelectItem value="female">Female</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* Height */}
+                <div className="space-y-2">
+                  <Label htmlFor="weight" className="text-foreground/90 font-medium">
+                    Weight (kg)
+                  </Label>
+                  <Input
+                    id="weight"
+                    type="number"
+                    step="0.1"
+                    placeholder="70"
+                    value={physicalDetails.weight}
+                    onChange={(e) => setPhysicalDetails({...physicalDetails, weight: e.target.value})}
+                    className="glass bg-background/50 border-primary/20 focus:border-primary"
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="height" className="text-foreground/90 font-medium">
                     Height (cm)
@@ -213,65 +267,57 @@ export const MacroCalculator = () => {
                     id="height"
                     type="number"
                     placeholder="175"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
+                    value={physicalDetails.height}
+                    onChange={(e) => setPhysicalDetails({...physicalDetails, height: e.target.value})}
                     className="glass bg-background/50 border-primary/20 focus:border-primary"
                   />
                 </div>
 
-                {/* Weight */}
-                <div className="space-y-2">
-                  <Label htmlFor="weight" className="text-foreground/90 font-medium">
-                    Weight (kg)
-                  </Label>
-                  <Input
-                    id="weight"
-                    type="number"
-                    placeholder="75"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    className="glass bg-background/50 border-primary/20 focus:border-primary"
-                  />
-                </div>
-
-                {/* Activity Level */}
                 <div className="space-y-2">
                   <Label htmlFor="activity" className="text-foreground/90 font-medium">
                     Activity Level
                   </Label>
-                  <Select value={activityLevel} onValueChange={setActivityLevel}>
+                  <Select
+                    value={physicalDetails.activityLevel}
+                    onValueChange={(value) => setPhysicalDetails({...physicalDetails, activityLevel: value})}
+                  >
                     <SelectTrigger className="glass bg-background/50 border-primary/20 focus:border-primary">
                       <SelectValue placeholder="Select activity level" />
                     </SelectTrigger>
-                    <SelectContent className="glass-intense border-primary/20">
-                      <SelectItem value="sedentary">Sedentary</SelectItem>
-                      <SelectItem value="light">Lightly Active</SelectItem>
-                      <SelectItem value="moderate">Moderately Active</SelectItem>
-                      <SelectItem value="very">Very Active</SelectItem>
+                    <SelectContent>
+                      <SelectItem value="sedentary">Sedentary (little to no exercise)</SelectItem>
+                      <SelectItem value="light">Light (1-3 days/week)</SelectItem>
+                      <SelectItem value="moderate">Moderate (3-5 days/week)</SelectItem>
+                      <SelectItem value="active">Active (6-7 days/week)</SelectItem>
+                      <SelectItem value="very_active">Very Active (2x per day)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* Goal */}
                 <div className="space-y-2">
                   <Label htmlFor="goal" className="text-foreground/90 font-medium">
                     Goal
                   </Label>
-                  <Select value={goal} onValueChange={setGoal}>
+                  <Select
+                    value={physicalDetails.goal}
+                    onValueChange={(value) => setPhysicalDetails({...physicalDetails, goal: value})}
+                  >
                     <SelectTrigger className="glass bg-background/50 border-primary/20 focus:border-primary">
-                      <SelectValue placeholder="Select goal" />
+                      <SelectValue placeholder="Select your goal" />
                     </SelectTrigger>
-                    <SelectContent className="glass-intense border-primary/20">
-                      <SelectItem value="loss">Fat Loss</SelectItem>
-                      <SelectItem value="maintenance">Maintenance</SelectItem>
-                      <SelectItem value="gain">Muscle Gain</SelectItem>
+                    <SelectContent>
+                      <SelectItem value="lose">Lose Weight</SelectItem>
+                      <SelectItem value="maintain">Maintain Weight</SelectItem>
+                      <SelectItem value="gain">Gain Muscle</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <Button
-                onClick={calculateMacros}
+                onClick={handleDetailsSubmit}
+                disabled={!physicalDetails.age || !physicalDetails.gender || !physicalDetails.weight ||
+                          !physicalDetails.height || !physicalDetails.activityLevel || !physicalDetails.goal}
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105"
               >
                 Calculate Macros
@@ -279,9 +325,9 @@ export const MacroCalculator = () => {
             </motion.div>
           )}
 
-          {step === 'email-capture' && (
+          {step === 'contact' && (
             <motion.div
-              key="email-capture"
+              key="contact"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -322,17 +368,17 @@ export const MacroCalculator = () => {
                 </div>
 
                 <Button
-                  onClick={handleEmailSubmit}
+                  onClick={handleContactSubmit}
                   disabled={isSubmitting || !email || !name}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 rounded-full text-lg glow-coral transition-all duration-300 hover:scale-105"
                 >
-                  {isSubmitting ? "Sending..." : "Show My Results"}
+                  {isSubmitting ? "Processing..." : "Show My Results"}
                 </Button>
               </div>
             </motion.div>
           )}
 
-          {step === 'results' && results && (
+          {step === 'results' && macroResults && (
             <motion.div
               key="results"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -349,12 +395,11 @@ export const MacroCalculator = () => {
                 >
                   ✅
                 </motion.div>
-                <h3 className="text-2xl font-bold gradient-text">Your results are ready!</h3>
-                <p className="text-foreground/70">Based on your profile and goals</p>
+                <h3 className="text-2xl font-bold gradient-text">Your Personalized Results, {name}!</h3>
+                <p className="text-foreground/70">Based on your unique profile and goals</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Calories */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -362,14 +407,13 @@ export const MacroCalculator = () => {
                   className="glass-intense p-6 rounded-2xl text-center border border-primary/20"
                 >
                   <div className="text-4xl font-bold gradient-text mb-2">
-                    {results.calories}
+                    {macroResults.targetCalories}
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
-                    kcal/day
+                    Target Calories/day
                   </div>
                 </motion.div>
 
-                {/* Protein */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -377,14 +421,13 @@ export const MacroCalculator = () => {
                   className="glass-intense p-6 rounded-2xl text-center border border-primary/20"
                 >
                   <div className="text-4xl font-bold text-primary mb-2">
-                    {results.protein}g
+                    {macroResults.protein}g
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
                     Protein
                   </div>
                 </motion.div>
 
-                {/* Carbs */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -392,14 +435,13 @@ export const MacroCalculator = () => {
                   className="glass-intense p-6 rounded-2xl text-center border border-primary/20"
                 >
                   <div className="text-4xl font-bold text-primary mb-2">
-                    {results.carbs}g
+                    {macroResults.carbs}g
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
                     Carbs
                   </div>
                 </motion.div>
 
-                {/* Fats */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -407,7 +449,7 @@ export const MacroCalculator = () => {
                   className="glass-intense p-6 rounded-2xl text-center border border-primary/20"
                 >
                   <div className="text-4xl font-bold text-primary mb-2">
-                    {results.fats}g
+                    {macroResults.fats}g
                   </div>
                   <div className="text-foreground/70 text-sm tracking-wide uppercase">
                     Fats
@@ -419,10 +461,16 @@ export const MacroCalculator = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="glass bg-primary/10 p-4 rounded-xl border border-primary/20"
+                className="glass bg-primary/10 p-4 rounded-xl border border-primary/20 space-y-2"
               >
-                <p className="text-sm text-foreground/80 text-center">
-                  💡 These macros are calculated using the Mifflin-St Jeor formula and tailored to your specific goals. Adjust as needed based on your progress.
+                <p className="text-sm text-foreground/80">
+                  <strong>Your BMR:</strong> {macroResults.bmr} kcal/day
+                </p>
+                <p className="text-sm text-foreground/80">
+                  <strong>Your TDEE:</strong> {macroResults.tdee} kcal/day
+                </p>
+                <p className="text-sm text-foreground/80 text-center pt-2 border-t border-primary/20 mt-2">
+                  These macros are calculated using the Mifflin-St Jeor formula and tailored to your specific goals. Adjust as needed based on your progress.
                 </p>
               </motion.div>
 
